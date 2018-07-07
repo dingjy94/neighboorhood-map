@@ -1,5 +1,8 @@
-body {
+body, html, div#root {
   margin: 0;
-  padding: 0;
+  padding-top: 0;
   font-family: sans-serif;
+  height: 100%;
+  width: 100%;
 }
+
