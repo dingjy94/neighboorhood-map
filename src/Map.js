@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import {Navbar, Nav, NavItem} from 'reactstrap';
 /*global google*/
 
 class Map extends Component {
@@ -8,30 +7,78 @@ class Map extends Component {
     this.mapRef = React.createRef();
     this.state = {
       map: null,
-      markers: [{lat: 29.6462791, lng: -82.3499421},
-               {lat: 29.6384087, lng: -82.370569},
-               {lat: 29.6228534, lng: -82.3664786},
-               {lat: 29.6228942, lng: -82.3817995},
-               {lat: 29.6169116, lng: -82.3432027}]
-    }
+      position: [],
+      markers:[],
+    };
+    this.clearMarker = this.clearMarker.bind(this);
+    this.preId = 0;
   }
 
   componentDidMount() {
     let map = new google.maps.Map(this.mapRef.current, {
             center: {lat: 29.6428792, lng: -82.348518},
             zoom: 13
-    });
-    this.setState({map});
 
-    let positions = this.state.markers;
-    for (let i = 0; i < positions.length; i++) {
-      var marker = new google.maps.Marker({
-        map: map,
-        position: positions[i],
-        animation: google.maps.Animation.DROP,
-        id: i
+     });
+    this.setState(state => {return {map: map}});
+
+  }
+
+  componentDidUpdate() {
+    
+
+    if(this.state.markers.length != this.props.positions.length) {
+      this.clearMarker();
+
+      let tmp = [];
+      this.props.positions.map((position, index) => {
+        
+        const marker = new google.maps.Marker({
+          map: this.state.map,
+          position: position.location,
+          title: position.title,
+          animation: null,
+          id: index
+        })
+        
+        const select = this.props.select;
+        const back = this.props.back;
+        const selected = this.props.selected;
+
+        marker.addListener('click', function() {
+          if (selected) {
+            back();
+          } else {
+            select(this.id);
+          }
+        });
+        
+        tmp.push(marker);
       });
+      this.setState(state => {return {markers: tmp}});
     }
+
+    const id = this.props.id;
+    const marker = this.state.markers[id];
+
+    if (this.state.markers[this.preId]) {
+      this.state.markers[this.preId].setAnimation(null);
+    }
+
+    if (this.props.selected) {
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        this.preId = id;
+      }
+    }
+  }
+
+  clearMarker() {
+    const cleared = this.state.markers.map((marker) => {
+      marker.setMap(null);
+    });
   }
 
   render() {
@@ -42,4 +89,4 @@ class Map extends Component {
   }
 }
 
-export default Map;
+export default Map;0
