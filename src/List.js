@@ -1,14 +1,27 @@
 import React, {Component} from 'react';
 import {Collapse, Form, FormGroup, Input, Container,
         Row, Col, ListGroup, ListGroupItem, Button} from 'reactstrap';
+import * as DataAPI from './DataAPI.js';
 
 class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: ''
+      query: '',
+      data: null
     }
 
+  }
+
+  componentDidUpdate() {
+    if (this.props.selected && 
+       (this.state.data === null || this.state.data.name != this.props.markers[this.props.id].title)) {
+        DataAPI.get(this.props.markers[this.props.id].yelp)
+        .then((data) => {
+          console.log(data);
+          this.setState({data: data});
+        })
+    }
   }
 
   update(query) {
@@ -27,6 +40,30 @@ class List extends Component {
     const select = this.props.select;
     const id = this.props.id;
     const selected = this.props.selected;
+    const data = this.state.data;
+    let display;
+  
+    if (selected) {
+      if (this.state.data === null) {
+        display = <Row>Loading</Row>;
+      } else if (this.state.data.name != markers[id].title) {
+        display = <Row>Loading</Row>;
+      } else {
+        display = <div>
+                    <Row><img src={this.state.data.image_url} ref={this.state.data.name}/></Row>
+                    <Row>Name: {this.state.data.name}</Row>
+                    <Row>Number: {this.state.data.display_phone}</Row>
+                    <Row>Rating: {this.state.data.rating}</Row>
+                    <Row><a href={this.state.data.url}>Yelp Link</a></Row>
+                    <Row>Address: </Row>
+                    <Row>{this.state.data.location.address1}</Row>
+                    <Row>{this.state.data.location.address2}</Row>
+                    <Row>{this.state.data.location.address3}</Row>
+                    <Row>{this.state.data.location.city}</Row>
+                    <Row>{this.state.data.location.state}</Row>
+                  </div>;
+      }
+    }
 
     return (
       <Collapse isOpen={this.props.collapsed} className="bg-light sidebar"> 
@@ -62,9 +99,7 @@ class List extends Component {
             <Row>
               <Button color="primary" onClick={back}>Back</Button>
             </Row>
-            <Row>
-              {markers[id].title}
-            </Row>
+            {display}
           </Container>
         }
       </Collapse>
