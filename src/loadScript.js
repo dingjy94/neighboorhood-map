@@ -18,7 +18,7 @@ const loadScript = (url) => new Promise((resolve, reject) => {
   script.onload = script.onreadystatechange;
 
   script.onerror = (msg) => {
-    console.log(msg);
+    alert("Error loading Google map, check your Network");
     reject(new Error('Error loading script.'));
   };
 

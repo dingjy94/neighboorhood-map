@@ -8,6 +8,11 @@ export const get = (yelp) =>
     headers: {
         'Authorization': 'Bearer vJDF1oLOIaGoHZEEVyOFhp4UihDnllNRalmnpeiAqB8EqHWPs2sUIydcbvBsw5XroRbAzwsz0p0tCIuejrUYKwI6E-Lq4EPZGF-KuZ8Y3omBAwHv5LEYveF4RbpDW3Yx',
     }
+    }).then(function(response) {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response;
     })
    .then(res => res.json())
-   .catch(error => {console.log(error)})
+   .catch(error => {alert("yelp api error!")})

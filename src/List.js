@@ -15,10 +15,9 @@ class List extends Component {
 
   componentDidUpdate() {
     if (this.props.selected && 
-       (this.state.data === null || this.state.data.name != this.props.markers[this.props.id].title)) {
-        DataAPI.get(this.props.markers[this.props.id].yelp)
+       (this.state.data === null || this.state.data.name != this.props.markers[this.props.id].loc.title)) {
+        DataAPI.get(this.props.markers[this.props.id].loc.yelp)
         .then((data) => {
-          console.log(data);
           this.setState({data: data});
         })
     }
@@ -26,7 +25,7 @@ class List extends Component {
 
   update(query) {
     const updateQuery = this.props.updateQuery;
-    updateQuery(query);
+    updateQuery(query.trim());
     this.setState(state => {
       return {
         query: query
@@ -46,11 +45,11 @@ class List extends Component {
     if (selected) {
       if (this.state.data === null) {
         display = <Row>Loading</Row>;
-      } else if (this.state.data.name != markers[id].title) {
+      } else if (this.state.data.name != markers[id].loc.title) {
         display = <Row>Loading</Row>;
       } else {
-        display = <div>
-                    <Row><img src={this.state.data.image_url} ref={this.state.data.name}/></Row>
+        display = <div role="information">
+                    <Row><img src={this.state.data.image_url} alt={this.state.data.name}/></Row>
                     <Row>Name: {this.state.data.name}</Row>
                     <Row>Number: {this.state.data.display_phone}</Row>
                     <Row>Rating: {this.state.data.rating}</Row>
@@ -84,9 +83,9 @@ class List extends Component {
             <Row>
               <Col>
                 <ListGroup>
-                  {markers.map((marker, id) => 
+                  {markers.map((marker, id) => (marker.marker && marker.marker.map != null) &&
                     <ListGroupItem key={id} onClick={e => select(id)}>
-                      {marker.title}
+                      {marker.loc.title}
                     </ListGroupItem>
                   )}
                 </ListGroup>

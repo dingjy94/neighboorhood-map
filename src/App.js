@@ -8,6 +8,9 @@ import List from './List.js';
 import loadScript from './loadScript.js';
 import {Container, Col} from 'reactstrap';
 import escapeRegExp from 'escape-string-regexp';
+import locations from './locationInfo.js';
+/*global google*/
+
 
 class App extends Component {
   constructor(props) {
@@ -15,31 +18,29 @@ class App extends Component {
     this.state = {
       apiLoaded: false,
       collapsed: false,
-      positions: [
-        {title: 'J. Wayne Reitz Union', location: {lat: 29.6462791, lng: -82.3499421}, yelp: 'j-wayne-reitz-union-gainesville'},
-        {title: 'Southwest Recreation Center', location: {lat: 29.6384087, lng: -82.370569}, yelp: 'southwest-recreation-center-gainesville'},
-        {title: 'Gainesville Place Apartments', location: {lat: 29.6228534, lng: -82.3664786}, yelp: 'gainesville-place-apartments-gainesville'},
-        {title: 'Walmart Supercenter', location: {lat: 29.6228942, lng: -82.3817995}, yelp: 'walmart-supercenter-gainesville-8'},
-        {title: 'Gator Suyaki', location: {lat: 29.6169116, lng: -82.3432027}, yelp: 'gator-suyaki-gainesville-2'}
-      ],
-      markers: [],
-      query: '',
+      positions: [],
       selected: false,
-      id: 0
+      id: 0,
+      map: null
     }
-    this.setMarker = this.setMarker.bind(this);
     this.toggle = this.toggle.bind(this);
     this.updateQuery = this.updateQuery.bind(this);
     this.back = this.back.bind(this);
     this.select = this.select.bind(this);
+    this.setMap = this.setMap.bind(this);
   }
 
   select(id) {
+    if (this.state.positions[id].marker.getAnimation() === null) {
+      const tmp = this.state.positions.slice(0);
+      tmp[id].marker.setAnimation(google.maps.Animation.BOUNCE);
+      this.setState({positions: tmp});
+    }
     this.setState(state => {
       return {
         id: id,
         selected: true,
-        collapsed: true
+        collapsed: true,
       }
     })
   }
@@ -57,18 +58,27 @@ class App extends Component {
   }
 
   updateQuery(query) {
-    this.setState(state => {return {query: query.trim()}});
+    const map  = this.state.map;
+
+    const match = new RegExp(escapeRegExp(query), 'i')
+    const tmp = this.state.positions.map(function(position) {
+      if (match.test(position.loc.title)) {
+        const curPos = position;
+        curPos.marker.setMap(map);
+        return position;
+      } else {
+        const curPos = position;
+        curPos.marker.setMap(null);
+        return curPos;
+      }
+    });
+
+    this.setState({positions: tmp});
   }
 
   toggle() {
     this.setState({
       collapsed: !this.state.collapsed
-    });
-  }
-
-  setMarker(markers) {
-    this.setState(state => {
-      return {markers: markers}
     });
   }
 
@@ -87,44 +97,63 @@ class App extends Component {
       });
   }
 
+  setMap(map) {
+    this.setState({map: map});
+
+    let tmp = []
+    const cur = this;
+
+    locations.map((loc, index) => {
+      const marker = new google.maps.Marker({
+          map: map,
+          position: loc.location,
+          title: loc.title,
+          animation: null,
+          id: index
+      });
+      tmp[index] = {loc, marker};
+      marker.addListener('click', function() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+          cur.back();
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          cur.select(index);
+        }
+      });
+    });
+
+    this.setState({positions: tmp});
+  }
+
   back() {
+    const tmp = this.state.positions.slice(0);
+    tmp[this.state.id].marker.setAnimation(null);
+
     this.setState(state => {
       return {
         id: 0,
-        selected: false
+        selected: false,
+        positions: tmp
       }
     });
   }
 
   render() {
-    let showPos;
-    if (this.state.query) {
-      const match = new RegExp(escapeRegExp(this.state.query), 'i')
-      showPos = this.state.positions.filter((position) => match.test(position.title));
-    } else {
-      showPos = this.state.positions;
-    }
-    
     return (
-      <div className='app'>
+      <div className='app' role="app">
         <Bar
           toggle = {this.toggle}
         />
           {
             this.state.apiLoaded &&
             <Map
-              positions = {showPos}
-              setMarker = {this.setMarker}
-              query = {this.state.query}
-              select = {this.select}
-              back = {this.back}
-              selected = {this.state.selected}
-              id = {this.state.id}
+              setMap = {this.setMap}
             />
           }
         <List
           collapsed = {this.state.collapsed}
-          markers = {showPos}
+          markers = {this.state.positions}
           updateQuery = {this.updateQuery}
           select = {this.select}
           back = {this.back}

@@ -7,6 +7,8 @@ A single page application featuring a map of my neighborhood (Gainesville, FL).
 1. `npm install`
 2. `npm start`
 3. You can click search to open the list, click marker or list item will display information from yelp.
+4. If meet google Map API error or Yelp API error, the application will alert message.
+5. Serviceworker implemented by the 'registerServiceWorker' built by 'create-react-app'.
 
 ## Dependency
 - [ReactJS](https://reactjs.org/)
