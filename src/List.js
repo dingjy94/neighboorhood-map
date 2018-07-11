@@ -15,7 +15,7 @@ class List extends Component {
 
   componentDidUpdate() {
     if (this.props.selected && 
-       (this.state.data === null || this.state.data.name != this.props.markers[this.props.id].loc.title)) {
+       (this.state.data === null || typeof this.state.data == 'undefined' || this.state.data.name != this.props.markers[this.props.id].loc.title)) {
         DataAPI.get(this.props.markers[this.props.id].loc.yelp)
         .then((data) => {
           this.setState({data: data});
@@ -43,23 +43,25 @@ class List extends Component {
     let display;
   
     if (selected) {
-      if (this.state.data === null) {
+      if (typeof this.state.data == 'undefined') {
+        display = <Row>Error</Row>;
+      } else if (this.state.data === null) {
         display = <Row>Loading</Row>;
       } else if (this.state.data.name != markers[id].loc.title) {
         display = <Row>Loading</Row>;
       } else {
-        display = <div role="information">
-                    <Row><img src={this.state.data.image_url} alt={this.state.data.name}/></Row>
-                    <Row>Name: {this.state.data.name}</Row>
-                    <Row>Number: {this.state.data.display_phone}</Row>
-                    <Row>Rating: {this.state.data.rating}</Row>
-                    <Row><a href={this.state.data.url}>Yelp Link</a></Row>
-                    <Row>Address: </Row>
-                    <Row>{this.state.data.location.address1}</Row>
-                    <Row>{this.state.data.location.address2}</Row>
-                    <Row>{this.state.data.location.address3}</Row>
-                    <Row>{this.state.data.location.city}</Row>
-                    <Row>{this.state.data.location.state}</Row>
+        display = <div role="grid">
+                    <Row role="gridcell"><img src={this.state.data.image_url} alt={this.state.data.name}/></Row>
+                    <Row role="gridcell">Name: {this.state.data.name}</Row>
+                    <Row role="gridcell">Number: {this.state.data.display_phone}</Row>
+                    <Row role="gridcell">Rating: {this.state.data.rating}</Row>
+                    <Row role="gridcell"><a href={this.state.data.url}>Yelp Link</a></Row>
+                    <Row role="gridcell">Address: </Row>
+                    <Row role="gridcell">{this.state.data.location.address1}</Row>
+                    <Row role="gridcell">{this.state.data.location.address2}</Row>
+                    <Row role="gridcell">{this.state.data.location.address3}</Row>
+                    <Row role="gridcell">{this.state.data.location.city}</Row>
+                    <Row role="gridcell">{this.state.data.location.state}</Row>
                   </div>;
       }
     }

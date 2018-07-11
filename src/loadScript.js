@@ -8,7 +8,7 @@ const loadScript = (url) => new Promise((resolve, reject) => {
 
   script.type = 'text/javascript';
   script.src = url;
-  script.async = true;
+  script.defer = true;
   script.onreadystatechange = () => {
     if (!ready && (!this.readyState || this.readyState === 'complete')) {
       ready = true;

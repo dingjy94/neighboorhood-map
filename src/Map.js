@@ -16,10 +16,9 @@ class Map extends Component {
     this.props.setMap(map);
   }
 
-
   render() {
     return (
-      <div role="map" className="map" id="map" ref={this.mapRef}>
+      <div role="application" className="map" id="map" ref={this.mapRef}>
       </div>
     );
   }
