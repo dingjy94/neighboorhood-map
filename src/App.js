@@ -141,7 +141,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className='app' role="app">
+      <div className='app' role="main">
         <Bar
           toggle = {this.toggle}
         />

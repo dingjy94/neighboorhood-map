@@ -74,9 +74,11 @@ class List extends Component {
               <Col>
                 <Form>
                   <FormGroup>
+                    <label for="search" class="visuallyhidden">Search: </label>
                     <Input placeholder={this.state.query.length === 0 ? "Search" : undefined} 
                     onChange={(event) => this.update(event.target.value)}
-                      value = {this.state.query}/>
+                      value = {this.state.query}
+                      id="search/>
                   </FormGroup>
                 </Form>
               </Col>
@@ -86,7 +88,7 @@ class List extends Component {
               <Col>
                 <ListGroup>
                   {markers.map((marker, id) => (marker.marker && marker.marker.map != null) &&
-                    <ListGroupItem key={id} onClick={e => select(id)}>
+                    <ListGroupItem key={id} onClick={e => select(id)} tabindex={id}>
                       {marker.loc.title}
                     </ListGroupItem>
                   )}
