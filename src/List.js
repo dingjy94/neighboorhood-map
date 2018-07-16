@@ -78,7 +78,7 @@ class List extends Component {
                     <Input placeholder={this.state.query.length === 0 ? "Search" : undefined} 
                     onChange={(event) => this.update(event.target.value)}
                       value = {this.state.query}
-                      id="search/>
+                      id="search"/>
                   </FormGroup>
                 </Form>
               </Col>
@@ -100,7 +100,7 @@ class List extends Component {
         {selected &&
           <Container>
             <Row>
-              <Button color="primary" onClick={back}>Back</Button>
+              <Button color='primary' onClick={back}>Back</Button>
             </Row>
             {display}
           </Container>
