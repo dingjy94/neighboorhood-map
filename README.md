@@ -17,3 +17,10 @@ A single page application featuring a map of my neighborhood (Gainesville, FL).
 - [cors-anywhere](https://github.com/Rob--W/cors-anywhere)
 
 
+## Todo
+- [ ] footer
+- [ ] color change: black?
+- [ ] add restaurents
+- [ ] change title to restaurants
+- [ ] add photo and address view in list
+- [ ] change input to json 
