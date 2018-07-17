@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Route } from 'react-router-dom';
 import Map from './Map.js';
@@ -9,6 +8,12 @@ import loadScript from './loadScript.js';
 import {Container, Col} from 'reactstrap';
 import escapeRegExp from 'escape-string-regexp';
 import locations from './locationInfo.js';
+import Footer from './Footer.js';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faSearch);
 /*global google*/
 
 
@@ -141,25 +146,29 @@ class App extends Component {
 
   render() {
     return (
-      <div className='app' role="main">
-        <Bar
-          toggle = {this.toggle}
-        />
+      <div className='app' role='main'>
+          <Bar
+            toggle = {this.toggle}
+          />
+
           {
             this.state.apiLoaded &&
             <Map
               setMap = {this.setMap}
             />
           }
-        <List
-          collapsed = {this.state.collapsed}
-          markers = {this.state.positions}
-          updateQuery = {this.updateQuery}
-          select = {this.select}
-          back = {this.back}
-          selected = {this.state.selected}
-          id = {this.state.id}
-        />
+
+          <List
+            collapsed = {this.state.collapsed}
+            markers = {this.state.positions}
+            updateQuery = {this.updateQuery}
+            select = {this.select}
+            back = {this.back}
+            selected = {this.state.selected}
+            id = {this.state.id}
+          />
+
+          <Footer/>
       </div>
     );
   }

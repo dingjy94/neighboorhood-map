@@ -46,36 +46,47 @@ class List extends Component {
       if (typeof this.state.data == 'undefined') {
         display = <Row>Error</Row>;
       } else if (this.state.data === null) {
-        display = <Row>Loading</Row>;
+        display = <Row><h1 className="fas fa-spinner text-white"></h1></Row>;
       } else if (this.state.data.name != markers[id].loc.title) {
-        display = <Row>Loading</Row>;
+        display = <Row><h1 className="fas fa-spinner text-white"></h1></Row>;
       } else {
+        let stars = [];
+        const rate = this.state.data.rating;
+        for (let i = 0; i < Math.floor(rate); i++) {
+          stars.push(<small className="fas fa-star" key={i}></small>);
+        }
+        if (Math.floor(rate) < rate) {
+          stars.push(<small className="fas fa-star-half"></small>);
+        }
         display = <div role="grid">
-                    <Row role="gridcell"><img src={this.state.data.image_url} alt={this.state.data.name}/></Row>
-                    <Row role="gridcell">Name: {this.state.data.name}</Row>
-                    <Row role="gridcell">Number: {this.state.data.display_phone}</Row>
-                    <Row role="gridcell">Rating: {this.state.data.rating}</Row>
-                    <Row role="gridcell"><a href={this.state.data.url}>Yelp Link</a></Row>
-                    <Row role="gridcell">Address: </Row>
-                    <Row role="gridcell">{this.state.data.location.address1}</Row>
-                    <Row role="gridcell">{this.state.data.location.address2}</Row>
-                    <Row role="gridcell">{this.state.data.location.address3}</Row>
-                    <Row role="gridcell">{this.state.data.location.city}</Row>
-                    <Row role="gridcell">{this.state.data.location.state}</Row>
+                    <Row role="gridcell" className="align-middle resImage"><img src={this.state.data.image_url} alt={this.state.data.name}/></Row>
+                    <Row role="gridcell" className="text-bold bg-dark text-white resName"><h5>{this.state.data.name}</h5></Row>
+                    <Row role="gridcell" className="resRate bg-dark text-white">
+                      {stars}    
+                    </Row>
+                    <div role="gridcell" className="resList">
+                      <Row role="gridcell"><i className="fas fa-phone logo"></i> {this.state.data.display_phone}</Row>
+                      <Row role="gridcell"><i className="fas fa-map-marker-alt logo"></i>{this.state.data.location.address1}</Row>
+                      <Row role="gridcell">
+                        <a href={this.state.data.url} className="text-danger">
+                          <i className="fab fa-yelp logo"></i>
+                          See detail on Yelp!
+                        </a>
+                      </Row>
+                    </div>
                   </div>;
       }
     }
 
     return (
-      <Collapse isOpen={this.props.collapsed} className="bg-light sidebar"> 
+      <Collapse isOpen={this.props.collapsed} className="bg-light sidebar listMenu"> 
         {!selected &&
           <Container>
-            <Row>
+            <Row className="searchbox bg-dark">
               <Col>
                 <Form>
                   <FormGroup>
-                    <label for="search" class="visuallyhidden">Search: </label>
-                    <Input placeholder={this.state.query.length === 0 ? "Search" : undefined} 
+                    <Input placeholder={this.state.query.length === 0 ? "Filter by name..." : undefined} 
                     onChange={(event) => this.update(event.target.value)}
                       value = {this.state.query}
                       id="search"/>
@@ -88,7 +99,7 @@ class List extends Component {
               <Col>
                 <ListGroup>
                   {markers.map((marker, id) => (marker.marker && marker.marker.map != null) &&
-                    <ListGroupItem key={id} onClick={e => select(id)} tabindex={id}>
+                    <ListGroupItem key={id} onClick={e => select(id)} tabIndex={id}>
                       {marker.loc.title}
                     </ListGroupItem>
                   )}
@@ -99,8 +110,8 @@ class List extends Component {
         }
         {selected &&
           <Container>
-            <Row>
-              <Button color='primary' onClick={back}>Back</Button>
+            <Row className="bg-dark">
+              <Button color='dark' onClick={back}>Back</Button>
             </Row>
             {display}
           </Container>
