@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Navbar, NavbarBrand, Collapse, Button, NavItem, Nav, Row, Container,
-        Form, FormGroup, Input, Col} from 'reactstrap';
+import {Navbar, Button, Container, Col} from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Bar extends Component {
   constructor(props) {
@@ -11,15 +11,13 @@ class Bar extends Component {
     const toggle = this.props.toggle;
 
     return (
-      <Navbar className="navbar navbar-expand-md navbar-dark bg-primary">
+      <Navbar className="navbar navbar-expand-md navbar-dark bg-dark">
           <Container>
-            <Col className="float-left">
-              <Nav>
-                <NavItem>
-                  <Button color="primary" onClick={toggle}>Search</Button>
-                </NavItem>
-              </Nav>
-            </Col>
+            <Col xs="8">
+                  <Button color="dark" onClick={toggle}>
+                    <FontAwesomeIcon icon="search"/>
+                  </Button>
+            </Col> 
           </Container>
       </Navbar>
     );

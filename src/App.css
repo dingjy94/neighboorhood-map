@@ -26,3 +26,108 @@ img {
   height: 30%;
   width: 70%;
 }
+
+.listMenu {
+  border-radius: 10px;
+}
+
+.searchbox {
+  padding-top: 10px;
+}
+
+.resList {
+  padding-top: 0.5em;
+}
+
+.resList .row {
+  margin-left: 20px;
+  margin-right: 0;
+  padding-top: 0.25em;
+}
+
+.listMenu .resImage {
+  height: 20%;
+}
+
+.listMenu .resImage img {
+  width: 100%;
+}
+
+.listMenu .resName {
+  padding-left: 1.5em;
+}
+
+.listMenu .resRate {
+  padding-left: 1.5em;
+  padding-bottom: 0.5em;
+}
+
+nav .col-8 {
+  padding-left: 0;
+  text-align: left;
+}
+
+nav h5 {
+  margin-bottom: 0;
+}
+
+nav .container {
+  margin-left: unset;
+}
+
+footer {
+  padding: 15px;
+}
+
+footer .container {
+  margin-left: unset;
+  margin-right: unset;
+  max-width: 100%;
+}
+
+footer #social {
+  padding-left: 0;
+}
+
+.logo {
+  margin-right: 10px
+}
+
+.fa-spinner {
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 4000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 4000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 4000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+}
+
+@keyframes spin{
+  0%{transform:rotate(0deg)}
+  100%{transform:rotate(359deg)}
+}
+
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+
