@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Collapse, Form, FormGroup, Input, Container,
         Row, Col, ListGroup, ListGroupItem, Button} from 'reactstrap';
 import * as DataAPI from './DataAPI.js';
+import ListCell from './ListCell.js';
 
 class List extends Component {
   constructor(props) {
@@ -95,12 +96,14 @@ class List extends Component {
               </Col>
             </Row>
   
-            <Row>
+            <Row className="bg-light listRow">
               <Col>
                 <ListGroup>
                   {markers.map((marker, id) => (marker.marker && marker.marker.map != null) &&
                     <ListGroupItem key={id} onClick={e => select(id)} tabIndex={id}>
-                      {marker.loc.title}
+                      <ListCell
+                        yelp = {marker.loc.yelp}
+                      />
                     </ListGroupItem>
                   )}
                 </ListGroup>
@@ -108,7 +111,7 @@ class List extends Component {
             </Row>
           </Container>
         }
-        {selected &&
+        {selected && this.props. apiloaded &&
           <Container>
             <Row className="bg-dark">
               <Button color='dark' onClick={back}>Back</Button>

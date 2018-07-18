@@ -5,12 +5,10 @@ import Map from './Map.js';
 import Bar from './Bar.js';
 import List from './List.js';
 import loadScript from './loadScript.js';
-import {Container, Col} from 'reactstrap';
 import escapeRegExp from 'escape-string-regexp';
 import locations from './locationInfo.js';
 import Footer from './Footer.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faSearch);
@@ -166,6 +164,7 @@ class App extends Component {
             back = {this.back}
             selected = {this.state.selected}
             id = {this.state.id}
+            apiloaded = {this.state.apiLoaded}
           />
 
           <Footer/>

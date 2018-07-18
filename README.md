@@ -20,8 +20,8 @@ A single page application featuring a map of my neighborhood (Gainesville, FL).
 ## Todo
 - [x] footer
 - [x] color change: black?
-- [ ] add restaurents
 - [x] change title to restaurants
-- [ ] add photo and address view in list
-- [ ] change input to json 
+- [x] add photo and address view in list
 - [ ] checkbox filter
+- [ ] add About
+- [ ] fetch yelp once

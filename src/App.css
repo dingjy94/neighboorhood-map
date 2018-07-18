@@ -13,11 +13,11 @@
 
 .sidebar {
   position: absolute;
-  top: 70px;
-  left: 10px;
-  width: 30%;
-  height: 70%;
-  min-width: 300px;
+  top: 50px;
+  left: 0;
+  width: 35%;
+  height: 80%;
+  min-width: 350px;
   max-width: 400px;
   max-height: 900px;
 }
@@ -49,6 +49,11 @@ img {
   height: 20%;
 }
 
+.listMenu .row {
+  padding-top: 0.5em;
+  padding-left: 0.2em;
+}
+
 .listMenu .resImage img {
   width: 100%;
 }
@@ -60,6 +65,11 @@ img {
 .listMenu .resRate {
   padding-left: 1.5em;
   padding-bottom: 0.5em;
+}
+
+.listMenu .listRow {
+  height: 90%;
+  overflow: scroll;
 }
 
 nav .col-8 {
@@ -129,5 +139,26 @@ footer #social {
 @-webkit-keyframes spin {
     from { -webkit-transform: rotate(0deg); }
     to { -webkit-transform: rotate(360deg); }
+}
+
+.list-group .list-group-item {
+  padding-left: 0.2em;
+  padding-bottom: 1em;
+  font-size: 0.9em;
+  padding-top: 0.2em;
+  padding-right: 0.1em;
+}
+
+.list-group .container {
+  text-align: left;
+}
+
+.list-group img {
+  height: 100%;
+  width: 100%;
+}
+
+.list-group .listImg {
+  text-align: right;
 }
 
