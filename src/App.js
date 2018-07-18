@@ -10,10 +10,10 @@ import locations from './locationInfo.js';
 import Footer from './Footer.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import * as DataAPI from './DataAPI.js';
 
 library.add(faSearch);
 /*global google*/
-
 
 class App extends Component {
   constructor(props) {
@@ -31,6 +31,10 @@ class App extends Component {
     this.back = this.back.bind(this);
     this.select = this.select.bind(this);
     this.setMap = this.setMap.bind(this);
+  }
+
+  sleeper(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   select(id) {
@@ -87,7 +91,6 @@ class App extends Component {
 
   loadMapScript() {
     // Load the google maps api script when the component is mounted.
-
     loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyA7jfuX_KqHACMqNPPziUwVRjlJTKrF7_Y&v=3')
       .then((script) => {
         // Grab the script object in case it is ever needed.
@@ -103,30 +106,37 @@ class App extends Component {
   setMap(map) {
     this.setState({map: map});
 
-    let tmp = []
     const cur = this;
 
-    locations.map((loc, index) => {
-      const marker = new google.maps.Marker({
+    let tmp = locations.map((loc, index) => {
+      return DataAPI.get(loc.yelp)
+      .then((yelpData) => {
+        const marker = new google.maps.Marker({
           map: map,
           position: loc.location,
           title: loc.title,
           animation: null,
           id: index
-      });
-      tmp[index] = {loc, marker};
-      marker.addListener('click', function() {
-        if (marker.getAnimation() !== null) {
-          marker.setAnimation(null);
-          cur.back();
-        } else {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-          cur.select(index);
-        }
+        });
+
+        marker.addListener('click', function() {
+          if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+            cur.back();
+          } else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            cur.select(index);
+          }
+        });
+        return {loc, marker, yelpData};
       });
     });
 
-    this.setState({positions: tmp});
+    Promise.all(tmp).then(function(results) {
+      console.log(results);
+      cur.setState({positions: results});
+    })
+            // ;
   }
 
   back() {

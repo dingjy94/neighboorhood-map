@@ -2,6 +2,7 @@ const api = 'https://api.yelp.com/v3/businesses/';
 
 const cors_api_url = 'https://cors-anywhere.herokuapp.com/';
 
+
 export const get = (yelp) => 
   fetch(`${cors_api_url}${api}${yelp}`, {
     method: 'GET',

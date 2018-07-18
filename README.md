@@ -24,4 +24,4 @@ A single page application featuring a map of my neighborhood (Gainesville, FL).
 - [x] add photo and address view in list
 - [ ] checkbox filter
 - [ ] add About
-- [ ] fetch yelp once
+- [x] fetch yelp once

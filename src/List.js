@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Collapse, Form, FormGroup, Input, Container,
         Row, Col, ListGroup, ListGroupItem, Button} from 'reactstrap';
-import * as DataAPI from './DataAPI.js';
 import ListCell from './ListCell.js';
 
 class List extends Component {
@@ -17,10 +16,7 @@ class List extends Component {
   componentDidUpdate() {
     if (this.props.selected && 
        (this.state.data === null || typeof this.state.data == 'undefined' || this.state.data.name != this.props.markers[this.props.id].loc.title)) {
-        DataAPI.get(this.props.markers[this.props.id].loc.yelp)
-        .then((data) => {
-          this.setState({data: data});
-        })
+        this.setState({data: this.props.markers[this.props.id].yelpData});
     }
   }
 
@@ -102,7 +98,7 @@ class List extends Component {
                   {markers.map((marker, id) => (marker.marker && marker.marker.map != null) &&
                     <ListGroupItem key={id} onClick={e => select(id)} tabIndex={id}>
                       <ListCell
-                        yelp = {marker.loc.yelp}
+                        yelp = {marker.yelpData}
                       />
                     </ListGroupItem>
                   )}
