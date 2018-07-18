@@ -2,6 +2,8 @@
 
 A single page application featuring a map of my neighborhood (Gainesville, FL).
 
+Published at [this repository's Github page](http://jingyid.me/neighboorhood-map/).
+
 ## Run
 
 1. `npm install`
@@ -15,6 +17,7 @@ A single page application featuring a map of my neighborhood (Gainesville, FL).
 - [ReactJS](https://reactjs.org/)
 - [Yelp Fushion](https://www.yelp.com/fusion)
 - [cors-anywhere](https://github.com/Rob--W/cors-anywhere)
+- [react-gh-pages](https://github.com/gitname/react-gh-pages)
 
 
 ## Todo
